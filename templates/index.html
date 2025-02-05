@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Course Enrollment</title>
+</head>
+<body>
+    <h1>Students and Courses</h1>
+
+    <!-- Add Student Form -->
+    <h2>Add Student</h2>
+    <form action="{{ url_for('add_student') }}" method="post">
+        <input type="text" name="name" placeholder="Student Name" required>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <!-- Add Course Form -->
+    <h2>Add Course</h2>
+    <form action="{{ url_for('add_course') }}" method="post">
+        <input type="text" name="name" placeholder="Course Name" required>
+        <button type="submit">Add Course</button>
+    </form>
+
+    <!-- Enroll Student in Course Form -->
+    <h2>Enroll Student in Course</h2>
+    <form action="{{ url_for('enroll_student') }}" method="post">
+        <select name="student_id" required>
+            <option value="" disabled selected>Select Student</option>
+            {% for student in students %}
+                <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="course_id" required>
+            <option value="" disabled selected>Select Course</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}">{{ course.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Enroll</button>
+    </form>
+
+    <!-- Display Students and Their Courses -->
+    <h2>Students and Their Courses</h2>
+    <ul>
+        {% for student in students %}
+            <li>
+                {{ student.name }}
+                <ul>
+                    {% for course in student.courses %}
+                        <li>{{ course.name }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Display Courses and Their Students -->
+    <h2>Courses and Their Students</h2>
+    <ul>
+        {% for course in courses %}
+            <li>
+                {{ course.name }}
+                <ul>
+                    {% for student in course.students %}
+                        <li>{{ student.name }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
